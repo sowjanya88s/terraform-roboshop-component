@@ -14,10 +14,7 @@ variable "domain_name" {
     type = string
     default = "sowjanya.fun"
 }
-variable "catalogue_tags" {
-    type = map
-    default = {}
-}
+
 variable "component" {
     type = string
 }

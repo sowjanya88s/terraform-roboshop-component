@@ -1,7 +1,7 @@
 resource "aws_instance" "main" {
-  ami           = data.aws_ami.example.id
+  ami           = local.ami_id
   instance_type = "t3.micro"
-  vpc_security_group_ids = [local.sg_id]
+  vpc_security_group_ids = [local._sg_id]
   subnet_id  = local.private_subnet_id
   
   tags = merge(local.common_tags ,
@@ -46,12 +46,12 @@ resource "aws_ec2_instance_state" "main" {
 }
 
 resource "aws_ami_from_instance" "main" {
-  name               = "${var.project}-${var.environment}-${var.component}"
+  name               = "${var.project}-${var.environment}-${var.component}-ami"
   source_instance_id = aws_instance.main.id
   depends_on = [aws_ec2_instance_state.main]
   tags = merge(
   {
-    Name = "${var.project}-${var.environment}-${var.component}"
+    Name = "${var.project}-${var.environment}-${var.component}-ami"
   },
   local.common_tags
   )
