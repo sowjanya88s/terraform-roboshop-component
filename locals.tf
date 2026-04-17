@@ -6,13 +6,13 @@ locals {
    alb_listener_arn = var.component == "frontend" ? local.frontend_alb_listener_arn : local.backend_alb_listener_arn
    host_header = var.component == "frontend" ? "${var.component}-${var.environment}.${var.domain_name}" : "${var.component}.backend-alb-${var.environment}.${var.domain_name}"
     common_tags = {
-        project = "roboshop"
-        environment = "dev"
+        project = var.project
+        environment = var.environment
         terraform = "true"
     }
      vpc_id = data.aws_ssm_parameter.vpc_id.value
      sg_id = data.aws_ssm_parameter.sg_id.value
-     health_check_path = var.component == "Frontend" ? "/" : "/health"
+     health_check_path = var.component == "frontend" ? "/" : "/health"
      port_number = var.component == "frontend" ? 80 : 8080
 
 }
